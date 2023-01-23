@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Table } from 'antd';
+import { } from 'antd';
 import { Container, Wrapper, Navbar, InputAnt, ButtonAnt } from './style'
-import { Drawer, Modal } from 'antd';
+import { Table, Drawer, Modal } from 'antd';
 import edits from '../../assets/edit.svg'
 import deleted from '../../assets/delete.svg'
 import logouts from '../../assets/logout.svg'
 import avatar from '../../assets/avatar.jpg'
-import AddUser from '../addUser'
+import AddUser from '../add'
 import { useNavigate } from 'react-router-dom';
 const { REACT_APP_BASE_URL: url } = process.env
 
@@ -56,7 +56,6 @@ const HomeTablePage = () => {
   }, [])
   // Drawer add user
   const [open, setOpen] = useState(false);
-  const [logout, setLogout] = useState(false);
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
   // delete
@@ -75,11 +74,11 @@ const HomeTablePage = () => {
     navigate('/login')
     localStorage.clear()
   }
-
+  console.log('gdsgsd');
   return <Container>
     <Modal title="Userni yo`q qilish" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}> <p>Siz usgbu malumotni rostan ham o'chirmoqchimisiz</p> </Modal>
     <Modal title="Sahifadan chiqish" open={isOutOpen} onOk={logOutOk} onCancel={handleCancel}> <p>Siz rostan ham sahifani tark etmoqchimsiz. Unday bo'lsa ogohlantiramiz login va parolni qayta kiritishingiz kerak bo'ladi</p></Modal>
-    <Drawer title="Add User" placement="right" onClose={onClose} open={open}><AddUser onClose={onClose} getFetch={getFetch} /></Drawer>
+    <Drawer title="Add User" placement="right" onClose={onClose} open={open}><AddUser open={open} setOpen={setOpen} getFetch={getFetch} /></Drawer>
     <Wrapper>
       <Navbar>
         <InputAnt placeholder='search' type="text" />

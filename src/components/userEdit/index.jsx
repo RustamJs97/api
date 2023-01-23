@@ -62,7 +62,6 @@ const UpdatePage = () => {
       branch: Yup.string().min(0, 'malumot yo`q').max(1, '1 dan ko`p').required('branch'),
     })
   })
-
   return (
     <Container>
       <Card onSubmit={formik.handleSubmit}>
