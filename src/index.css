@@ -7,17 +7,11 @@
   font-family: 'Nunito', sans-serif;
   font-weight: 500;
 }
-body{
-  background-color: #fff;
-}
-input,button{
-  border-radius: 2px !important; 
-}
+body{background-color: #f7f9fa;}
+input,button{border-radius: 2px !important; }
 .action{width: 100%; display: flex; justify-content: start; gap: 20px;}
 button{cursor: pointer; border: none;}
-button:active{
-  transform: scale(0.98);
-}
+button:active{transform: scale(0.98);}
 span{display: flex; justify-content: center; width: 100%;}
 .container{
   width: 100%;

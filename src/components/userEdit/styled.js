@@ -3,12 +3,12 @@ import 'react-modern-drawer/dist/index.css'
 
 
 export const Container = styled.div`
-width: 100%;
-display: flex;
-background-color:#fafbfc;
-flex-direction: column;
-align-items: center;
-padding: 5px;
+  width: 100%;
+  display: flex;
+  background-color:#fafbfc;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
 img{
   min-width: 70px;
   max-width: 70px;
@@ -37,19 +37,19 @@ p{
 }
 `
 export const Card = styled.form`
-width: 100%;
-max-width: 400px;
-padding: 20px 20px 50px 20px;
-display: flex;
-background-color: #fff;
-flex-direction: column;
-justify-content: center;
-text-align: start;
-align-items: center;
-box-shadow: 0 0 10px rgba(0,0,0,.1);
-border: 1px solid rgba(0,0,0,.1);
-border-radius: 3px;
-margin: 50px 0;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px 20px 50px 20px;
+  display: flex;
+  background-color: #fff;
+  flex-direction: column;
+  justify-content: center;
+  text-align: start;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 3px;
+  margin: 50px 0;
 button{
   width: 100%;
   height: 40px; 
@@ -70,7 +70,5 @@ export const Input = styled.input`
   outline: none;
   padding: 5px;
   font-size: 16px;
-  :focus{
-    background-color: #f7f9fa;
-  }
+:focus{background-color: #f7f9fa;}
 `

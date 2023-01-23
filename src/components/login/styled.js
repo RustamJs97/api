@@ -33,16 +33,16 @@ p{
 h2{font-size:16px; text-align: center;line-height:0;color:red}
 `
 export const Card = styled.form`
-width: 400px;
-padding: 20px 20px 50px 20px;
-display: flex;
-background-color: #fff;
-flex-direction: column;
-justify-content: center;
-box-shadow: 0 0 10px rgba(0,0,0,.1);
-border: 1px solid rgba(0,0,0,.1);
-border-radius: 3px;
-margin: 50px 0;
+  width: 400px;
+  padding: 20px 20px 50px 20px;
+  display: flex;
+  background-color: #fff;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 3px;
+  margin: 50px 0;
 button{
   width: 100%;
   height: 40px; 
@@ -59,7 +59,7 @@ export const InputAnt = styled(Input)`
   height: 40px;
   border-radius: 3px;
   outline: none;
-  padding: 5px;
+  padding: 5px ;
   font-size: 16px;
-  :focus{ background-color: #f7f9fa;}
+:focus{ background-color: #f7f9fa;}
 `

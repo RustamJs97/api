@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Card, Input } from './styled'
 import { useFormik } from 'formik'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
-import { useParams } from 'react-router-dom'
 const { REACT_APP_BASE_URL: url } = process.env
 
 const UpdatePage = () => {
@@ -63,7 +62,7 @@ const UpdatePage = () => {
       branch: Yup.string().min(0, 'malumot yo`q').max(1, '1 dan ko`p').required('branch'),
     })
   })
-  console.log(data);
+
   return (
     <Container>
       <Card onSubmit={formik.handleSubmit}>

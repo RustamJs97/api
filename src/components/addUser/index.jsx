@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { Container } from './styled'
 import { Input, Button } from 'antd'
+const { REACT_APP_BASE_URL: url } = process.env
 
 const AddUser = ({ onClose }) => {
 
@@ -18,7 +19,7 @@ const AddUser = ({ onClose }) => {
     "branch_id": branchIdRef.current
   }
   const addUsers = () => {
-    return fetch("http://apiservice.gx.uz/api/user/add", {
+    return fetch(`http://${url}/api/user/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,11 +35,13 @@ const AddUser = ({ onClose }) => {
       <Input placeholder='name' ref={nameRef} />
       <Input placeholder='phone' ref={phoneRef} />
       <Input placeholder='password' ref={passwordRef} />
-      <Input type='number' placeholder='role_id' ref={roleIdRef} />
-      <Input type='number' placeholder='branch_id' ref={branchIdRef} />
       <span>
-        <button className='button' style={{ width: '100%' }} onClick={addUsers}>submit</button>
-        <Button style={{ width: '100%', }} type='default ' onClick={onClose}>cancel</Button>
+        <Input type='number' placeholder='role_id' ref={roleIdRef} />
+        <Input type='number' placeholder='branch_id' ref={branchIdRef} />
+      </span>
+      <span>
+        <Button className='button' onClick={addUsers}>submit</Button>
+        <Button type='default ' onClick={onClose}>cancel</Button>
       </span>
     </Container>
   )
