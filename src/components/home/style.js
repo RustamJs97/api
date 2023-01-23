@@ -36,14 +36,13 @@ export const Navbar = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  border-top: 1px solid #1111;
-  border-bottom: 1px solid #1111;
+  /* border-top: 1px solid #1111; */
+  border-bottom: 1px solid #3333;
   background-color: #fff;
   padding: 10px 15px;
   gap: 20px;
-  box-shadow: 0  0 10px rgba(0, 0, 0, .05);
-  margin-bottom: 5px;
-  transform: translate(1.2);
+  /* box-shadow: 0  0 10px rgba(0, 0, 0, .05); */
+  z-index: 999999;
 `
 export const InputAnt = styled(Input)`
   width: 200px;

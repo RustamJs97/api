@@ -6,11 +6,10 @@ import * as Yup from 'yup'
 const { REACT_APP_BASE_URL: url } = process.env
 
 const UpdatePage = () => {
-
   const { id } = useParams()
   const navigate = useNavigate()
   const [data, setData] = useState({})
-
+  console.log(data)
   useEffect(() => {
     fetch(`http://${url}/api/user/get/${id}`, {
       method: "GET",
@@ -25,11 +24,11 @@ const UpdatePage = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: data.name || '',
-      phone: data.phone || '',
-      password: data.password || '',
-      branch: data.branch_id || '',
-      role: data.role_id || '',
+      name: data?.name || '',
+      phone: data?.phone || '',
+      password: data?.password || '',
+      branch: data?.branch_id || '',
+      role: data?.role_id || '',
     },
 
     onSubmit: () => {
@@ -40,14 +39,13 @@ const UpdatePage = () => {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
-
         body: JSON.stringify({
-          id,
-          name: formik.name,
-          phone: formik.phone,
-          password: formik.password,
-          role_id: formik.role,
-          branch_id: formik.branch
+          "id": 1,
+          "name": "MuhammadRustam",
+          "phone": 998330252425,
+          "password": "123456",
+          "role_id": 1,
+          "branch_id": 1
         }),
 
       }).then(response => response.status == 200 && response.json())
@@ -67,7 +65,7 @@ const UpdatePage = () => {
       <Card onSubmit={formik.handleSubmit}>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUftCQRgVcLNy-j4C7bqsTDftnYMAE7z-AA&usqp=CAU" alt="" />
         <p>{formik.errors.name ? formik.errors.name : <b>name: {data?.name}</b>}</p>
-        <Input id='name' type='text' value={data?.name && formik.values.name} onChange={formik.handleChange} />
+        <Input id='name' type='text' value={formik.values.name} onChange={formik.handleChange} />
 
         <p>{formik.errors.phone ? formik.errors.phone : <b>phone: {data?.phone}</b>}</p>
         <Input id='phone' type='text' value={formik.values.phone} onChange={formik.handleChange} />

@@ -2,9 +2,11 @@ import React from 'react'
 import { Card, Input } from './styled'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useNavigate } from 'react-router-dom'
 const { REACT_APP_BASE_URL: url } = process.env
-const LoginPage = ({ open, setOpen }) => {
 
+const LoginPage = ({ open, setOpen }) => {
+  const navigate = useNavigate()
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -22,13 +24,13 @@ const LoginPage = ({ open, setOpen }) => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
         body: JSON.stringify({
-          name: formik.name,
-          phone: formik.phone,
-          password: formik.password,
-          role_id: formik.role_id,
-          branch_id: formik.branch_id
+          "name": formik.values.name,
+          "phone": formik.values.phone,
+          "password": formik.values.password,
+          "role_id": formik.values.role_id,
+          "branch_id": formik.values.branch_id
         }),
-      }).then(response => setOpen(!open))
+      }).then(response => { response.status == 200 && setOpen(!open) });
 
     },
     validationSchema: Yup.object({

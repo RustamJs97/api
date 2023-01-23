@@ -18,7 +18,8 @@ export const Card = styled.form`
   align-items: center;
 button{width: 100%; height: 40px;}
 .button{background-color: #0247FE; color: #fff !important}
-span{gap:20px}
+span{display: flex; justify-content: center; width: 100%; gap:20px}
+
 `
 export const Input = styled.input`
   width: 100%;
