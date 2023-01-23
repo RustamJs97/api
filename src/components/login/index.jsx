@@ -1,0 +1,57 @@
+import React, { useRef, useState } from 'react'
+import { Container, Card, InputAnt } from './styled'
+import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
+import * as Yup from 'yup'
+const { REACT_APP_BASE_URL: url } = process.env
+
+const LoginPage = () => {
+
+  const [worning, setWorning] = useState('')
+  const navigate = useNavigate()
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    onSubmit: () => {
+      fetch(`http://${url}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          "phone": formik.values.email,
+          "password": formik.values.password,
+        }),
+      }).then(response => response.status == 200 && response.json())
+        .then(res => {
+          !!res && localStorage.setItem('access_token', res?.access_token)
+          !!res && localStorage.setItem('refresh_token', res?.refresh_token)
+          !!res && !!localStorage.getItem('refresh_token') && navigate('/')
+          !res && setWorning('login yoki parol xato')
+        }
+        )
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().required('email?'),
+      password: Yup.string().min(4, '4 dan kam').max(12, '12 dan ko`p').required('password?')
+    })
+  })
+
+  return (
+    <Container>
+      <Card onSubmit={formik.handleSubmit}>
+        <h2>{worning}</h2>
+        <p>{formik.errors.email ? formik.errors.email : <b>email: 998990065551</b>}</p>
+        <InputAnt id='email' value={formik.values.email} onChange={formik.handleChange} />
+        <p>{formik.errors.password ? formik.errors.password : <b>password: 123456</b>}</p>
+        <InputAnt id='password' type='password' tvalue={formik.values.password} onChange={formik.handleChange} />
+        <button type='submit'>Sign In</button>
+      </Card>
+    </Container>
+  )
+}
+
+export default LoginPage
