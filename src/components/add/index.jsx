@@ -5,8 +5,8 @@ import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
 const { REACT_APP_BASE_URL: url } = process.env
 
-const LoginPage = ({ open, setOpen }) => {
-  const navigate = useNavigate()
+const AddPage = ({ open, setOpen, setData }) => {
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -15,7 +15,8 @@ const LoginPage = ({ open, setOpen }) => {
       role_id: '',
       branch_id: '',
     },
-    onSubmit: () => {
+
+    onSubmit: (values, { resetForm }) => {
       fetch(`http://${url}/api/user/add`, {
         method: "POST",
         headers: {
@@ -23,16 +24,20 @@ const LoginPage = ({ open, setOpen }) => {
           "Accept": "application/json",
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
+
         body: JSON.stringify({
-          "name": formik.values.name,
-          "phone": formik.values.phone,
-          "password": formik.values.password,
-          "role_id": formik.values.role_id,
-          "branch_id": formik.values.branch_id
+          name: formik.values.name,
+          phone: formik.values.phone,
+          password: formik.values.password,
+          role_id: formik.values.role_id,
+          branch_id: formik.values.branch_id
         }),
-      }).then(response => { response.status == 200 && setOpen(!open) });
+      })
+        .then(response => { response.status == 200 && setOpen(!open) })
+        .then(res => !!res && resetForm({ values: '' }))
 
     },
+
     validationSchema: Yup.object({
       name: Yup.string().min(4, '4 dan kam').max(12, '12 dan ko`p').required('name?'),
       phone: Yup.string().min(4, '4 dan kam').max(12, '12 dan ko`p').required('phone?'),
@@ -71,4 +76,4 @@ const LoginPage = ({ open, setOpen }) => {
   )
 }
 
-export default LoginPage
+export default AddPage

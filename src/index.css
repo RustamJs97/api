@@ -12,7 +12,6 @@ body{background-color: #f7f9fa;}
 .action{width: 100%; display: flex; justify-content: start; gap: 20px;}
 button{cursor: pointer; border: none;}
 button:active{transform: scale(0.98);}
-/* span{display: flex; justify-content: center; width: 100%;} */
 .container{
   width: 100%;
   display: flex;
@@ -31,7 +30,8 @@ button:active{transform: scale(0.98);}
 
 .ant-table-tbody > tr.ant-table-row:hover > td { background: #fff !important;}
 .ant-table-cell{ background-color: #fff !important;}
-.ant-spin-container{box-shadow: 0  10px 10px rgba(0, 0, 0, .05);padding-bottom: 10px; background-color: #fff;}
+.ant-spin-container{box-shadow: 0  10px 5px rgba(0, 0, 0, .01
+  );padding-bottom: 10px; background-color: #fff;}
 .ant-select {width: 100% !important; border-radius: 2px !important;}
 .status{
   width: 100px;

@@ -24,13 +24,12 @@ const UpdatePage = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: data?.name || '',
-      phone: data?.phone || '',
-      password: data?.password || '',
-      branch: data?.branch_id || '',
-      role: data?.role_id || '',
+      name: data?.name,
+      phone: data?.phone,
+      branch: data?.branch_id,
+      role: data?.role_id,
     },
-
+    enableReinitialize: true,
     onSubmit: () => {
       fetch(`http://${url}/api/user/update`, {
         method: "PUT",
@@ -40,22 +39,19 @@ const UpdatePage = () => {
           "Accept": "application/json",
         },
         body: JSON.stringify({
-          "id": 1,
-          "name": "MuhammadRustam",
-          "phone": 998330252425,
-          "password": "123456",
-          "role_id": 1,
-          "branch_id": 1
+          id: 1,
+          name: formik.values.name,
+          phone: formik.values.phone,
+          role_id: formik.values.role,
+          branch_id: formik.values.branch
         }),
 
       }).then(response => response.status == 200 && response.json())
-        .then(res => !!res && !!localStorage.getItem('refresh_token') && navigate('/')
-        )
+        .then(res => !!res && !!localStorage.getItem('refresh_token') && navigate('/'))
     },
     validationSchema: Yup.object({
       name: Yup.string().min(4, '4 dan kam').required('name'),
       phone: Yup.string().min(4, '4 dan kam').required('phone'),
-      password: Yup.string().min(4, '4 dan kam').max(12, '11 dan ko`p').required('password'),
       role: Yup.string().min(0, 'malumot yo`q').max(1, '1 dan ko`p').required('role'),
       branch: Yup.string().min(0, 'malumot yo`q').max(1, '1 dan ko`p').required('branch'),
     })
@@ -69,9 +65,6 @@ const UpdatePage = () => {
 
         <p>{formik.errors.phone ? formik.errors.phone : <b>phone: {data?.phone}</b>}</p>
         <Input id='phone' type='text' value={formik.values.phone} onChange={formik.handleChange} />
-
-        <p>{formik.errors.password ? formik.errors.password : <b>password: {data?.password}</b>}</p>
-        <Input id='password' type='text' value={formik.values.password} onChange={formik.handleChange} />
 
         <p>{formik.errors.role ? formik.errors.role : <b>role_id: {data?.role_id}</b>}</p>
         <Input type='number' id='role' value={formik.values.role} onChange={formik.handleChange} />
