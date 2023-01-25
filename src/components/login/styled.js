@@ -50,16 +50,17 @@ button{
   background-color: #2962FF;
   color: #fff;
   font-size: 20px;
-  border-radius: 3px;
+  border-radius: 6px;
   margin-top: 30px;
 }
 `
 
 export const InputAnt = styled(Input)`
   height: 40px;
-  border-radius: 3px;
+  display: flex;
+  align-items: center;
   outline: none;
-  padding: 5px ;
+  /* padding: 5px ; */
   font-size: 16px;
-:focus{ background-color: #f7f9fa;}
+/* :focus{ background-color: #f7f9fa;} */
 `

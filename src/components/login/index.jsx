@@ -47,7 +47,7 @@ const LoginPage = () => {
         <p>{formik.errors.email ? formik.errors.email : <b>email: 998990065551</b>}</p>
         <InputAnt id='email' value={formik.values.email} onChange={formik.handleChange} />
         <p>{formik.errors.password ? formik.errors.password : <b>password: 123456</b>}</p>
-        <InputAnt id='password' type='password' tvalue={formik.values.password} onChange={formik.handleChange} />
+        <InputAnt.Password id='password' type='password' tvalue={formik.values.password} onChange={formik.handleChange} />
         <button type='submit'>Sign In</button>
       </Card>
     </Container>

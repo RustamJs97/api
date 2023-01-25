@@ -21,7 +21,7 @@ const UpdatePage = () => {
     }).then(res => res.json())
       .then(response => setData(response))
   }, [])
-
+  console.log(data);
   const formik = useFormik({
     initialValues: {
       name: data?.name,
@@ -39,7 +39,7 @@ const UpdatePage = () => {
           "Accept": "application/json",
         },
         body: JSON.stringify({
-          id: 1,
+          id,
           name: formik.values.name,
           phone: formik.values.phone,
           role_id: formik.values.role,

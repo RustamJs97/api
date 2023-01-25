@@ -57,7 +57,7 @@ const HomeTablePage = () => {
       render: (value) => {
         return <span className='action'>
           <img className='edit-img' onClick={() => navigate(`/${value}`)} src={edits} />
-          <img className='edit-img' onClick={() => setData(data?.filter((v) => v.id !== value))} src={deleted} />
+          <img className='edit-img' onClick={() => setData(data?.filter((v) => v.id == value))} src={deleted} />
           <img className='edit-img' src={vert} />
         </span>
       }
@@ -66,7 +66,7 @@ const HomeTablePage = () => {
 
   const [data, setData] = useState()
   const getData = () => {
-    fetch(`http://${url}/api/user/list`, {
+    fetch(`http://${url}/api/auth/user`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -184,3 +184,5 @@ const HomeTablePage = () => {
     </Wrapper> </Container>
 }
 export default HomeTablePage;
+
+

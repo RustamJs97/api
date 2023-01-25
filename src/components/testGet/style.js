@@ -5,9 +5,14 @@ export const Container = styled.div`
   width: 100%;
   padding: 20px;
   height: 100vh;
+  padding: 50px 5px;
   display: flex;
   justify-content: center;
   background-color: #fafbfc;
+ * svg{
+  fill: grey;
+  stroke: grey;
+}
 .img{
   width: 30px;
   height: 30px;
@@ -50,4 +55,12 @@ export const InputAnt = styled(Input)`
 `
 export const ButtonAnt = styled(Button)`
   max-width: 1400px;
+`
+export const BranchStyle = styled.span`
+  font-weight: 500;
+  padding: 5px 30px;
+  border-radius: 5px;
+  background: ${({ color }) => color == 1 ? 'rgba(255, 165, 0,.3)' : "rgba(96, 255, 125,.3)"};
+  color: ${({ color }) => color == 1 ? '#cc6a6a' : "#37851d"};
+  
 `

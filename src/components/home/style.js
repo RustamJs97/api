@@ -51,3 +51,10 @@ export const InputAnt = styled(Input)`
 export const ButtonAnt = styled(Button)`
   max-width: 1400px;
 `
+export const RoleText = styled.span`
+  padding: 5px 30px;
+  border-radius: 5px;
+  background: rgba(96, 255, 125,.3);
+  color: #fff;
+  font-weight: 500;
+`
