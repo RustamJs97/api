@@ -54,13 +54,9 @@ button{
   margin-top: 30px;
 }
 `
-
 export const InputAnt = styled(Input)`
   height: 40px;
   display: flex;
   align-items: center;
-  outline: none;
-  /* padding: 5px ; */
   font-size: 16px;
-/* :focus{ background-color: #f7f9fa;} */
 `

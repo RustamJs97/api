@@ -1,18 +1,12 @@
 import styled from "styled-components";
-import { Input, Drawer, Button } from 'antd';
+import { Input, Select, Button } from 'antd';
 
 export const Container = styled.div`
-  width: 100%;
-  padding: 20px;
-  height: 100vh;
-  padding: 50px 5px;
-  display: flex;
-  justify-content: center;
-  background-color: #fafbfc;
- * svg{
-  fill: grey;
-  stroke: grey;
-}
+width: 100%;
+max-width: 1400px;
+box-shadow: 0 0 10px rgba(0,0,0,.2);
+margin: 0 5px;
+ * svg{ fill: grey;stroke: grey;}
 .img{
   width: 30px;
   height: 30px;
@@ -57,10 +51,12 @@ export const ButtonAnt = styled(Button)`
   max-width: 1400px;
 `
 export const BranchStyle = styled.span`
-  font-weight: 500;
   padding: 5px 30px;
   border-radius: 5px;
-  background: ${({ color }) => color == 1 ? 'rgba(255, 165, 0,.3)' : "rgba(96, 255, 125,.3)"};
-  color: ${({ color }) => color == 1 ? '#cc6a6a' : "#37851d"};
-  
+  background: ${({ color }) => color == 1 ? 'rgba(0, 200, 255,.1)' : "rgba(96, 255, 125,.3)"};
+  color: ${({ color }) => color == 1 ? '#699ff5' : "#37851d"};
+`
+export const SelectAnt = styled(Select)`
+  width: 100px !important;
+  margin-right: auto;
 `

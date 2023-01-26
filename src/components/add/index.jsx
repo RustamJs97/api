@@ -1,7 +1,8 @@
 import React from 'react'
-import { Card, Input } from './styled'
+import { Card } from './styled'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { Input } from 'antd'
 import { useNavigate } from 'react-router-dom'
 const { REACT_APP_BASE_URL: url } = process.env
 
@@ -46,31 +47,33 @@ const AddPage = ({ open, setOpen, setData }) => {
       branch_id: Yup.string().required('branch_id?'),
     })
   })
-
+  const cancelOpen = () => {
+    setOpen(!open)
+  }
   return (
     <Card onSubmit={formik.handleSubmit}>
       <p>{formik.errors.name}</p>
-      <Input type='text' id='name' value={formik.values.name} onChange={formik.handleChange} placeholder='name' />
+      <Input size='large' type='text' id='name' value={formik.values.name} onChange={formik.handleChange} placeholder='name' />
 
       <p>{formik.errors.phone}</p>
-      <Input style={{ margin: '0' }} type='text' id='phone' value={formik.values.phone} onChange={formik.handleChange} placeholder='phone' />
+      <Input size='large' style={{ margin: '0' }} type='text' id='phone' value={formik.values.phone} onChange={formik.handleChange} placeholder='phone' />
       <p>{formik.errors.password}</p>
-      <Input style={{ margin: '0' }} type='text' id='password' value={formik.values.password} onChange={formik.handleChange} placeholder='password' />
+      <Input size='large' style={{ margin: '0' }} type='text' id='password' value={formik.values.password} onChange={formik.handleChange} placeholder='password' />
 
       <span>
         <div>
           <p>{formik.errors.role_id}</p>
-          <Input type='text' id='role_id' value={formik.values.role_id} onChange={formik.handleChange} type='number' placeholder='role_id' />
+          <Input size='large' type='text' id='role_id' value={formik.values.role_id} onChange={formik.handleChange} type='number' placeholder='role_id' />
         </div>
         <div>
 
           <p>{formik.errors.branch_id}</p>
-          <Input type='text' id='branch_id' value={formik.values.branch_id} onChange={formik.handleChange} type='number' placeholder='branch_id' />
+          <Input size='large' type='text' id='branch_id' value={formik.values.branch_id} onChange={formik.handleChange} type='number' placeholder='branch_id' />
         </div>
       </span>
       <span style={{ marginTop: '20px' }}>
         <button className='button' type='submit'>submit</button>
-        <button onClick={() => setOpen(!open)} type='default ' >cancel</button>
+        <button onClick={cancelOpen} type='default ' >cancel</button>
       </span>
     </Card>
   )

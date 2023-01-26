@@ -22,21 +22,21 @@ const LoginPage = () => {
           "Accept": "application/json",
         },
         body: JSON.stringify({
-          "phone": formik.values.email,
+          "phone": `998${formik.values.email}`,
           "password": formik.values.password,
         }),
       }).then(response => response.status == 200 && response.json())
         .then(res => {
           !!res && localStorage.setItem('access_token', res?.access_token)
           !!res && localStorage.setItem('refresh_token', res?.refresh_token)
-          !!res && !!localStorage.getItem('refresh_token') && navigate('/')
+          !!res && !!localStorage.getItem('access_token') && navigate('/')
           !res && setWorning('login yoki parol xato')
         }
         )
     },
     validationSchema: Yup.object({
       email: Yup.string().required('email?'),
-      password: Yup.string().min(4, '4 dan kam').max(12, '12 dan ko`p').required('password?')
+      password: Yup.string().min(4, '4 dan kam')
     })
   })
 
@@ -45,10 +45,10 @@ const LoginPage = () => {
       <Card onSubmit={formik.handleSubmit}>
         <h2>{worning}</h2>
         <p>{formik.errors.email ? formik.errors.email : <b>email: 998990065551</b>}</p>
-        <InputAnt id='email' value={formik.values.email} onChange={formik.handleChange} />
+        <InputAnt addonBefore="+998" maxLength={9} type='text' id='email' value={formik.values.email} onChange={formik.handleChange} />
         <p>{formik.errors.password ? formik.errors.password : <b>password: 123456</b>}</p>
         <InputAnt.Password id='password' type='password' tvalue={formik.values.password} onChange={formik.handleChange} />
-        <button type='submit'>Sign In</button>
+        <button type='submit'>Login</button>
       </Card>
     </Container>
   )

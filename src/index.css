@@ -18,7 +18,7 @@ button:active{transform: scale(0.98);}
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 100px 0;
+  padding: 20px 10px;
 }
 .span-table{
   width: 100%;
