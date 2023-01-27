@@ -3,10 +3,9 @@ import { Card } from './styled'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Input } from 'antd'
-import { useNavigate } from 'react-router-dom'
 const { REACT_APP_BASE_URL: url } = process.env
 
-const AddPage = ({ open, setOpen, setData }) => {
+const AddPage = ({ open, setOpen }) => {
 
   const formik = useFormik({
     initialValues: {
@@ -36,7 +35,6 @@ const AddPage = ({ open, setOpen, setData }) => {
       })
         .then(response => { response.status == 200 && setOpen(!open) })
         .then(res => !!res && resetForm({ values: '' }))
-
     },
 
     validationSchema: Yup.object({
@@ -47,9 +45,7 @@ const AddPage = ({ open, setOpen, setData }) => {
       branch_id: Yup.string().required('branch_id?'),
     })
   })
-  const cancelOpen = () => {
-    setOpen(!open)
-  }
+  const cancelOpen = () => setOpen(!open)
   return (
     <Card onSubmit={formik.handleSubmit}>
       <p>{formik.errors.name}</p>

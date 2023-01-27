@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Card, Input } from './styled'
+import { Container, Card } from './styled'
 import { useFormik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
+import { Input } from 'antd'
+import avatar from '../../assets/avatar.png'
 const { REACT_APP_BASE_URL: url } = process.env
 
 const UpdatePage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [data, setData] = useState({})
-  console.log(data)
+
   useEffect(() => {
     fetch(`http://${url}/api/user/get/${id}`, {
       method: "GET",
@@ -21,11 +23,11 @@ const UpdatePage = () => {
     }).then(res => res.json())
       .then(response => setData(response))
   }, [])
-  console.log(data);
+
   const formik = useFormik({
     initialValues: {
       name: data?.name,
-      phone: data?.phone,
+      phone: data?.phone?.slice(3, 12),
       branch: data?.branch_id,
       role: data?.role_id,
     },
@@ -41,7 +43,7 @@ const UpdatePage = () => {
         body: JSON.stringify({
           id,
           name: formik.values.name,
-          phone: formik.values.phone,
+          phone: `998${formik.values.phone}`,
           role_id: formik.values.role,
           branch_id: formik.values.branch
         }),
@@ -59,18 +61,18 @@ const UpdatePage = () => {
   return (
     <Container>
       <Card onSubmit={formik.handleSubmit}>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUftCQRgVcLNy-j4C7bqsTDftnYMAE7z-AA&usqp=CAU" alt="" />
+        <img src={avatar} alt="" />
         <p>{formik.errors.name ? formik.errors.name : <b>name: {data?.name}</b>}</p>
-        <Input id='name' type='text' value={formik.values.name} onChange={formik.handleChange} />
+        <Input size='large' id='name' type='text' value={formik.values.name} onChange={formik.handleChange} />
 
         <p>{formik.errors.phone ? formik.errors.phone : <b>phone: {data?.phone}</b>}</p>
-        <Input id='phone' type='text' value={formik.values.phone} onChange={formik.handleChange} />
+        <Input size='large' id='phone' addonBefore="+998" type='text' value={formik.values.phone} onChange={formik.handleChange} />
 
         <p>{formik.errors.role ? formik.errors.role : <b>role_id: {data?.role_id}</b>}</p>
-        <Input type='number' id='role' value={formik.values.role} onChange={formik.handleChange} />
+        <Input size='large' type='number' id='role' value={formik.values.role} onChange={formik.handleChange} />
 
         <p>{formik.errors.branch ? formik.errors.branch : <b>branch_id: {data?.branch_id}</b>}</p>
-        <Input type='number' id='branch' value={formik.values.branch} onChange={formik.handleChange} />
+        <Input size='large' type='number' id='branch' value={formik.values.branch} onChange={formik.handleChange} />
 
         <button type='submit'>Ok</button>
       </Card>

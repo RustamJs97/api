@@ -3,6 +3,7 @@ import { Container, Card, InputAnt } from './styled'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
+import axios from 'axios'
 const { REACT_APP_BASE_URL: url } = process.env
 
 const LoginPage = () => {
@@ -15,22 +16,15 @@ const LoginPage = () => {
       password: ''
     },
     onSubmit: () => {
-      fetch(`http://${url}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({
-          "phone": `998${formik.values.email}`,
-          "password": formik.values.password,
-        }),
-      }).then(response => response.status == 200 && response.json())
+      axios.post(`http://${url}/api/auth/login`, {
+        phone: `998${formik.values.email}`,
+        password: formik.values.password,
+      })
         .then(res => {
-          !!res && localStorage.setItem('access_token', res?.access_token)
-          !!res && localStorage.setItem('refresh_token', res?.refresh_token)
+          !!res && localStorage.setItem('access_token', res?.data?.access_token)
+          !!res && localStorage.setItem('refresh_token', res?.data?.refresh_token)
           !!res && !!localStorage.getItem('access_token') && navigate('/')
-          !res && setWorning('login yoki parol xato')
+          res && setWorning('login yoki parol xato')
         }
         )
     },
@@ -44,7 +38,7 @@ const LoginPage = () => {
     <Container>
       <Card onSubmit={formik.handleSubmit}>
         <h2>{worning}</h2>
-        <p>{formik.errors.email ? formik.errors.email : <b>email: 998990065551</b>}</p>
+        <p>{formik.errors.email ? formik.errors.email : <b>email: +998 33 025 24 25</b>}</p>
         <InputAnt addonBefore="+998" maxLength={9} type='text' id='email' value={formik.values.email} onChange={formik.handleChange} />
         <p>{formik.errors.password ? formik.errors.password : <b>password: 123456</b>}</p>
         <InputAnt.Password id='password' type='password' tvalue={formik.values.password} onChange={formik.handleChange} />

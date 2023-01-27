@@ -17,5 +17,4 @@ export const Card = styled.form`
 button{width: 100%; height: 40px; border-radius:6px}
 .button{background-color: #0247FE; color: #fff !important}
 span{display: flex; justify-content: center; width: 100%; gap:20px}
-
 `

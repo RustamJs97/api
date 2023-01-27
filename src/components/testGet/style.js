@@ -2,16 +2,22 @@ import styled from "styled-components";
 import { Input, Select, Button } from 'antd';
 
 export const Container = styled.div`
-width: 100%;
-max-width: 1400px;
-box-shadow: 0 0 10px rgba(0,0,0,.2);
-margin: 0 5px;
+  width: 100%;
+  max-width: 1400px;
+  box-shadow: 0 0 10px rgba(0,0,0,.2);
+  margin: 0 5px;
+  border-radius: 6px !important;
  * svg{ fill: grey;stroke: grey;}
+.img_status{
+  width: 50px !important;
+  object-fit: contain;
+}
 .img{
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid silver;
+  background-color: #3333;
+  object-fit: cover;
 }
 .edit-img{
   margin-top: 5px;
@@ -28,8 +34,11 @@ margin: 0 5px;
 export const Wrapper = styled.div`
   width: 100%;
   max-width: 1400px;
+  border-radius: 6px !important;
+
 `
 export const Navbar = styled.div`
+  border-radius: 6px 6px 0 0  !important;
   width: 100%;
   max-width: 1400px;
   display: flex;
@@ -37,7 +46,7 @@ export const Navbar = styled.div`
   align-items: center;
   border-bottom: 1px solid #3333;
   background-color: #fff;
-  padding: 10px 15px;
+  padding: 20px 15px;
   gap: 20px;
   z-index: 999999;
 `
@@ -45,7 +54,6 @@ export const InputAnt = styled(Input)`
   width: 200px;
   display: flex;
   justify-content: flex-end;
-:focus{box-shadow: none;}
 `
 export const ButtonAnt = styled(Button)`
   max-width: 1400px;

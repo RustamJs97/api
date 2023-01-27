@@ -1,13 +1,18 @@
 import React, { lazy } from 'react'
 import notfound from '../assets/not-found.svg'
 import { Route, Routes, useParams } from 'react-router-dom'
+import axios from 'axios';
+
 const Login = lazy(() => import('../components/login'));
 const Home = lazy(() => import('../components/testGet'));
 const ParamsUser = lazy(() => import('../components/userEdit'));
-
 const Root = () => {
+  axios.interceptors.response.use(res => res)
+  axios.interceptors.request.use((request) => {
+    // request.interceptors.Authorization = `Bearer ${localStorage.getItem('access_token')}`
+    return request
+  })
   const { id } = useParams()
-  // component: <React.Suspense fallback={<Spins tip="Loading..." size='large' />}><HomePage /></React.Suspense>,
   return (
     <Routes>
       <Route path='/login' element={<React.Suspense fallback={<h1> loading</h1>}><Login /></React.Suspense>} />

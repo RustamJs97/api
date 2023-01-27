@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Wrapper, Navbar, InputAnt, ButtonAnt, BranchStyle, SelectAnt } from './style'
-import { Table, Drawer, Modal, Select } from 'antd';
+import { Container, Wrapper, Navbar, InputAnt, ButtonAnt, BranchStyle } from './style'
+import { Table, Drawer, Modal, Select, Popover } from 'antd';
 import edits from '../../assets/edit.svg'
 import deleted from '../../assets/delete.svg'
 import logouts from '../../assets/logout.svg'
@@ -13,6 +13,7 @@ import axios from 'axios';
 const { REACT_APP_BASE_URL: url } = process.env
 
 const HomeTablePageTest = () => {
+
   // ______ antd ______
   const columns = [
     {
@@ -22,20 +23,22 @@ const HomeTablePageTest = () => {
     },
     { title: 'Phone', dataIndex: 'phone', sorter: (a, b) => (a.role_id > b.role_id ? 1 : -1), },
     {
-      title: 'Role_id', dataIndex: 'role_id',
-      sorter: (a, b) => (a.role_id > b.role_id ? 1 : -1),
-      render: (role_id) => <BranchStyle color={role_id}> {role_id}</BranchStyle>
-    },
-    {
       title: 'Branch_id', dataIndex: 'branch_id',
       sorter: (a, b) => (a.branch_id > b.branch_id ? 1 : -1),
       render: (branch_id, record) => <BranchStyle color={branch_id} key={record.id}>{branch_id}</BranchStyle>
 
     },
     {
+      title: 'Role_id', dataIndex: 'role_id',
+      sorter: (a, b) => (a.role_id > b.role_id ? 1 : -1),
+      render: (role_id) => <BranchStyle color={role_id}> {role_id}</BranchStyle>
+    },
+    {
       title: 'Status', dataIndex: 'status',
       sorter: (a, b) => (a.status > b.status ? 1 : -1),
-      render: (status, record) => <span key={record.id} className='status'> <img style={{ border: 'none', width: '20px', height: '25px' }} className='img' src={phone} alt="" />{status}</span>
+      render: (status, record) => <span key={record.id} className='status'>
+        <img style={{ border: 'none', width: '20px', height: '25px' }} className='img_status' src={phone} alt="" />{status}
+      </span>
 
     },
     {
@@ -44,11 +47,15 @@ const HomeTablePageTest = () => {
         return <span key={record.id} className='action'>
           <img className='edit-img' onClick={() => navigate(`/edit/${id}`)} src={edits} />
           <img className='edit-img' onClick={() => setData(data?.filter((v) => v.id !== id))} src={deleted} />
-          <img className='edit-img' src={vert} />
+          <Popover placement="bottomRight" content={<div>
+            <h3 className='h3' onClick={() => navigate(`/edit/${id}`)}>edit</h3>
+            <h3 className='h3'>suspent</h3>
+          </div>} trigger="click"><img className='edit-img' src={vert} /></Popover>
         </span>
       }
     },
   ]
+
   // ______ all state ______
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -84,6 +91,7 @@ const HomeTablePageTest = () => {
     axios.get(`http://${url}/api/user/list`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` },
       params,
+      // timeout: 10000 && setLoading(false)
     }).then(response => {
       setData(response?.data?.data)
       setLoading(false)
@@ -129,9 +137,12 @@ const HomeTablePageTest = () => {
       <Drawer title="Add User" placement="right" onClose={onClose} open={open}><AddUser data={data} setData={setData} open={open} setOpen={setOpen} /></Drawer>
       <Wrapper>
         <Navbar>
-          <Select size='large' onChange={(arg) => selectChangeBranch(arg)} defaultValue="1" style={{ width: '100%' }} options={[{ value: '', label: 'branch_id' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
-          <Select size='large' onChange={(arg) => selectChangeRole(arg)} defaultValue="1" style={{ width: '100%' }} options={[{ value: '', label: 'role_id' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
-          <Select size='large' onChange={(arg) => selectChangeStatus(arg)} defaultValue="1" style={{ width: '100%' }} options={[{ value: '', label: 'status' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
+          <Select defaultOpen={true} size='large' onChange={(arg) => selectChangeBranch(arg)} style={{ width: '100%' }}
+            options={[{ value: '', label: 'branch_id' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
+          <Select defaultOpen={true} size='large' onChange={(arg) => selectChangeRole(arg)} style={{ width: '100%' }}
+            options={[{ value: '', label: 'role_id' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
+          <Select size='large' onChange={(arg) => selectChangeStatus(arg)} style={{ width: '100%' }}
+            options={[{ value: '', label: 'status' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
         </Navbar >
         <Navbar>
           <InputAnt size='large' name='name' onChange={onChanges} placeholder='search name...' type="text" />
@@ -149,11 +160,11 @@ const HomeTablePageTest = () => {
           rowKey={(record) => record.id}
           pagination={{
             pageSize: pagination?.pageSize,
-            count: pagination.count,
-            current_page: pagination.current_page,
-            per_page: pagination.per_page,
-            total: pagination.total,
-            total_pages: pagination.total_pages,
+            count: pagination?.count,
+            current_page: pagination?.current_page,
+            per_page: pagination?.per_page,
+            total: pagination?.total,
+            total_pages: pagination?.total_pages,
             onChange: (page) => selectChangePage(page)
           }
           }
