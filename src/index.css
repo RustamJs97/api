@@ -11,7 +11,6 @@ h3{ width: 200px !important;cursor: pointer !important;padding: 10px;}
 h3:hover{background-color: #6d9eff; color:#fff; border-radius: 6px;}
 .ant-table-cell, .span-table{color: grey; font-size: 20px; font-weight: 500;}
 body{background-color: #f1f0f5;}
-/* input,button{border-radius: 2px !important; } */
 .action{width: 100%; display: flex; justify-content: start; gap: 20px;}
 button{cursor: pointer; border: none;}
 button:active{transform: scale(0.98);}
@@ -55,6 +54,4 @@ tr .ant-table-row .ant-table-row-level-0:hover{
   align-items: center;
   font-size: 30px;
 }
-.not-img{
-  width: 20%;
-}
+.not-img{width: 20%;}

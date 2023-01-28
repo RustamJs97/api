@@ -49,7 +49,7 @@ const HomeTablePageTest = () => {
           <img className='edit-img' onClick={() => setData(data?.filter((v) => v.id !== id))} src={deleted} />
           <Popover placement="bottomRight" content={<div>
             <h3 className='h3' onClick={() => navigate(`/edit/${id}`)}>edit</h3>
-            <h3 className='h3'>suspent</h3>
+            <h3 className='h3' onClick={() => setData(data?.filter((v) => v.id !== id))}>deted</h3>
           </div>} trigger="click"><img className='edit-img' src={vert} /></Popover>
         </span>
       }
@@ -137,11 +137,11 @@ const HomeTablePageTest = () => {
       <Drawer title="Add User" placement="right" onClose={onClose} open={open}><AddUser data={data} setData={setData} open={open} setOpen={setOpen} /></Drawer>
       <Wrapper>
         <Navbar>
-          <Select defaultOpen={true} size='large' onChange={(arg) => selectChangeBranch(arg)} style={{ width: '100%' }}
+          <Select size='large' onChange={(arg) => selectChangeBranch(arg)} style={{ width: '100%' }} defaultValue='branch_id'
             options={[{ value: '', label: 'branch_id' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
-          <Select defaultOpen={true} size='large' onChange={(arg) => selectChangeRole(arg)} style={{ width: '100%' }}
+          <Select size='large' onChange={(arg) => selectChangeRole(arg)} style={{ width: '100%' }} defaultValue='role_id'
             options={[{ value: '', label: 'role_id' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
-          <Select size='large' onChange={(arg) => selectChangeStatus(arg)} style={{ width: '100%' }}
+          <Select size='large' onChange={(arg) => selectChangeStatus(arg)} style={{ width: '100%' }} defaultValue='status'
             options={[{ value: '', label: 'status' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
         </Navbar >
         <Navbar>

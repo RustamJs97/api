@@ -3,6 +3,7 @@ import { Card } from './styled'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Input } from 'antd'
+import axios from 'axios'
 const { REACT_APP_BASE_URL: url } = process.env
 
 const AddPage = ({ open, setOpen }) => {
@@ -17,21 +18,20 @@ const AddPage = ({ open, setOpen }) => {
     },
 
     onSubmit: (values, { resetForm }) => {
-      fetch(`http://${url}/api/user/add`, {
-        method: "POST",
+      axios.post(`http://${url}/api/user/add`,
+        {
+          name: formik.values.name,
+          phone: `998${formik.values.phone}`,
+          password: formik.values.password,
+          role_id: formik.values.role_id,
+          branch_id: formik.values.branch_id
+        }, {
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
 
-        body: JSON.stringify({
-          name: formik.values.name,
-          phone: formik.values.phone,
-          password: formik.values.password,
-          role_id: formik.values.role_id,
-          branch_id: formik.values.branch_id
-        }),
       })
         .then(response => { response.status == 200 && setOpen(!open) })
         .then(res => !!res && resetForm({ values: '' }))
@@ -52,11 +52,11 @@ const AddPage = ({ open, setOpen }) => {
       <Input size='large' type='text' id='name' value={formik.values.name} onChange={formik.handleChange} placeholder='name' />
 
       <p>{formik.errors.phone}</p>
-      <Input size='large' style={{ margin: '0' }} type='text' id='phone' value={formik.values.phone} onChange={formik.handleChange} placeholder='phone' />
+      <Input size='large' addonBefore="+998" maxLength={9} style={{ margin: '0' }} type='text' id='phone' value={formik.values.phone} onChange={formik.handleChange} placeholder='phone' />
       <p>{formik.errors.password}</p>
       <Input size='large' style={{ margin: '0' }} type='text' id='password' value={formik.values.password} onChange={formik.handleChange} placeholder='password' />
 
-      <span>
+      <span className="span">
         <div>
           <p>{formik.errors.role_id}</p>
           <Input size='large' type='text' id='role_id' value={formik.values.role_id} onChange={formik.handleChange} type='number' placeholder='role_id' />
@@ -67,7 +67,7 @@ const AddPage = ({ open, setOpen }) => {
           <Input size='large' type='text' id='branch_id' value={formik.values.branch_id} onChange={formik.handleChange} type='number' placeholder='branch_id' />
         </div>
       </span>
-      <span style={{ marginTop: '20px' }}>
+      <span className="span" style={{ marginTop: '20px' }}>
         <button className='button' type='submit'>submit</button>
         <button onClick={cancelOpen} type='default ' >cancel</button>
       </span>

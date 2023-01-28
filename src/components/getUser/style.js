@@ -61,8 +61,8 @@ export const ButtonAnt = styled(Button)`
 export const BranchStyle = styled.span`
   padding: 5px 30px;
   border-radius: 5px;
-  background: ${({ color }) => color == 1 ? 'rgba(0, 200, 255,.1)' : "rgba(96, 255, 125,.3)"};
-  color: ${({ color }) => color == 1 ? '#699ff5' : "#37851d"};
+  background: ${({ color }) => color == 1 ? 'rgba(57, 190, 215,.1)' : "rgba(255, 90, 71,.1)"};
+  color: ${({ color }) => color == 1 ? '#699ff5' : "#eb4634"};
 `
 export const SelectAnt = styled(Select)`
   width: 100px !important;

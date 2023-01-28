@@ -5,9 +5,10 @@ import 'react-modern-drawer/dist/index.css'
 export const Container = styled.div`
   width: 100%;
   display: flex;
-  background-color:#fafbfc;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 5px;
 img{
   min-width: 70px;
@@ -53,4 +54,5 @@ button{
   border-radius: 6px;
   margin-top: 30px;
 }
+.span{display: flex; justify-content: center; width: 100%; gap:20px}
 `

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 import { Input } from 'antd'
 import avatar from '../../assets/avatar.png'
+import axios from 'axios'
 const { REACT_APP_BASE_URL: url } = process.env
 
 const UpdatePage = () => {
@@ -13,15 +14,13 @@ const UpdatePage = () => {
   const [data, setData] = useState({})
 
   useEffect(() => {
-    fetch(`http://${url}/api/user/get/${id}`, {
-      method: "GET",
+    axios(`http://${url}/api/user/get/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         "Content-Type": "application/json",
         "Accept": "application/json",
       },
-    }).then(res => res.json())
-      .then(response => setData(response))
+    }).then(response => setData(response?.data))
   }, [])
 
   const formik = useFormik({
@@ -33,23 +32,19 @@ const UpdatePage = () => {
     },
     enableReinitialize: true,
     onSubmit: () => {
-      fetch(`http://${url}/api/user/update`, {
-        method: "PUT",
+      axios.put(`http://${url}/api/user/update`, {
+        id,
+        name: formik.values.name,
+        phone: `998${formik.values.phone}`,
+        role_id: formik.values.role,
+        branch_id: formik.values.branch
+      }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
-        body: JSON.stringify({
-          id,
-          name: formik.values.name,
-          phone: `998${formik.values.phone}`,
-          role_id: formik.values.role,
-          branch_id: formik.values.branch
-        }),
-
-      }).then(response => response.status == 200 && response.json())
-        .then(res => !!res && !!localStorage.getItem('refresh_token') && navigate('/'))
+      }).then(res => !!res && !!localStorage.getItem('refresh_token') && navigate('/home'))
     },
     validationSchema: Yup.object({
       name: Yup.string().min(4, '4 dan kam').required('name'),
@@ -68,11 +63,16 @@ const UpdatePage = () => {
         <p>{formik.errors.phone ? formik.errors.phone : <b>phone: {data?.phone}</b>}</p>
         <Input size='large' id='phone' addonBefore="+998" type='text' value={formik.values.phone} onChange={formik.handleChange} />
 
-        <p>{formik.errors.role ? formik.errors.role : <b>role_id: {data?.role_id}</b>}</p>
-        <Input size='large' type='number' id='role' value={formik.values.role} onChange={formik.handleChange} />
-
-        <p>{formik.errors.branch ? formik.errors.branch : <b>branch_id: {data?.branch_id}</b>}</p>
-        <Input size='large' type='number' id='branch' value={formik.values.branch} onChange={formik.handleChange} />
+        <span className="span">
+          <span>
+            <p>{formik.errors.role ? formik.errors.role : <b>role_id: {data?.role_id}</b>}</p>
+            <Input size='large' type='number' id='role' value={formik.values.role} onChange={formik.handleChange} />
+          </span>
+          <span>
+            <p>{formik.errors.branch ? formik.errors.branch : <b>branch_id: {data?.branch_id}</b>}</p>
+            <Input size='large' type='number' id='branch' value={formik.values.branch} onChange={formik.handleChange} />
+          </span>
+        </span>
 
         <button type='submit'>Ok</button>
       </Card>
