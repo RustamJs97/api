@@ -3,8 +3,8 @@ import { Input, Select, Button } from 'antd';
 
 export const Container = styled.div`
   width: 100%;
+  height: 100vh;
   max-width: 1400px;
-  box-shadow: 0 0 10px rgba(0,0,0,.2);
   margin: 0 5px;
   border-radius: 6px !important;
  * svg{ fill: grey;stroke: grey;}
@@ -34,8 +34,9 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   width: 100%;
   max-width: 1400px;
+  margin-bottom: 50px;
+  padding:0 0 50px 0;
   border-radius: 6px !important;
-
 `
 export const Navbar = styled.div`
   border-radius: 6px 6px 0 0  !important;

@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card } from './styled'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { Input } from 'antd'
+import { Input, Button, Spin, notification } from 'antd'
 import axios from 'axios'
+import { LoadingOutlined } from '@ant-design/icons';
 const { REACT_APP_BASE_URL: url } = process.env
 
 const AddPage = ({ open, setOpen }) => {
+
+  const [loading, setLoading] = useState(false)
+  const onLoading = () => setLoading(false)
+  const cancelOpen = () => setOpen(!open)
 
   const formik = useFormik({
     initialValues: {
@@ -18,6 +23,7 @@ const AddPage = ({ open, setOpen }) => {
     },
 
     onSubmit: (values, { resetForm }) => {
+      setLoading(true)
       axios.post(`http://${url}/api/user/add`,
         {
           name: formik.values.name,
@@ -31,10 +37,17 @@ const AddPage = ({ open, setOpen }) => {
           "Accept": "application/json",
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
-
+        validateStatus: function (status) {
+          status === 400 && openNotificationWithIcon()
+        }
       })
-        .then(response => { response.status == 200 && setOpen(!open) })
-        .then(res => !!res && resetForm({ values: '' }))
+        .then(res => {
+          !!res && resetForm({ values: '' })
+          onLoading()
+          cancelOpen()
+        }).catch(err => {
+          setLoading(false)
+        })
     },
 
     validationSchema: Yup.object({
@@ -45,7 +58,13 @@ const AddPage = ({ open, setOpen }) => {
       branch_id: Yup.string().required('branch_id?'),
     })
   })
-  const cancelOpen = () => setOpen(!open)
+  const openNotificationWithIcon = (type, mas, desc) => {
+    notification[type || 'warning']({
+      message: mas || 'xatolik yuz berdi',
+      description: desc || 'bu raqam oldin ruyxatdan utgan yoki qaytadan kiritib koring',
+
+    });
+  };
   return (
     <Card onSubmit={formik.handleSubmit}>
       <p>{formik.errors.name}</p>
@@ -54,7 +73,7 @@ const AddPage = ({ open, setOpen }) => {
       <p>{formik.errors.phone}</p>
       <Input size='large' addonBefore="+998" maxLength={9} style={{ margin: '0' }} type='text' id='phone' value={formik.values.phone} onChange={formik.handleChange} placeholder='phone' />
       <p>{formik.errors.password}</p>
-      <Input size='large' style={{ margin: '0' }} type='text' id='password' value={formik.values.password} onChange={formik.handleChange} placeholder='password' />
+      <Input.Password size='large' style={{ margin: '0' }} type='text' id='password' value={formik.values.password} onChange={formik.handleChange} placeholder='password' />
 
       <span className="span">
         <div>
@@ -67,11 +86,12 @@ const AddPage = ({ open, setOpen }) => {
           <Input size='large' type='text' id='branch_id' value={formik.values.branch_id} onChange={formik.handleChange} type='number' placeholder='branch_id' />
         </div>
       </span>
+
       <span className="span" style={{ marginTop: '20px' }}>
-        <button className='button' type='submit'>submit</button>
-        <button onClick={cancelOpen} type='default ' >cancel</button>
+        <Button type='primary' disabled={loading && true} htmlType='submit'> {loading && <Spin size='large' indicator={<LoadingOutlined style={{ fontSize: 24, }} spin />} />}Add user</Button>
+        <Button onClick={cancelOpen}>Cancel</Button>
       </span>
-    </Card>
+    </Card >
   )
 }
 

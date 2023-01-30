@@ -3,14 +3,16 @@ import { Container, Card } from './styled'
 import { useFormik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
-import { Input } from 'antd'
+import { Input, Button, Spin, notification } from 'antd'
 import avatar from '../../assets/avatar.png'
 import axios from 'axios'
+import { LoadingOutlined } from '@ant-design/icons';
 const { REACT_APP_BASE_URL: url } = process.env
 
 const UpdatePage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
 
   useEffect(() => {
@@ -22,7 +24,13 @@ const UpdatePage = () => {
       },
     }).then(response => setData(response?.data))
   }, [])
+  const openNotificationWithIcon = (type, mas, desc) => {
+    notification['success']({
+      message: `o'zgarish muvafaqiyatli bajarildi`,
+      description: `name: ${data.name}, phone: ${data.phone}`,
 
+    });
+  };
   const formik = useFormik({
     initialValues: {
       name: data?.name,
@@ -32,6 +40,7 @@ const UpdatePage = () => {
     },
     enableReinitialize: true,
     onSubmit: () => {
+      setLoading(true)
       axios.put(`http://${url}/api/user/update`, {
         id,
         name: formik.values.name,
@@ -44,7 +53,11 @@ const UpdatePage = () => {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
-      }).then(res => !!res && !!localStorage.getItem('refresh_token') && navigate('/home'))
+      }).then(res => {
+        !!res && !!localStorage.getItem('refresh_token') && navigate('/home')
+        return openNotificationWithIcon()
+      }
+      )
     },
     validationSchema: Yup.object({
       name: Yup.string().min(4, '4 dan kam').required('name'),
@@ -56,12 +69,15 @@ const UpdatePage = () => {
   return (
     <Container>
       <Card onSubmit={formik.handleSubmit}>
-        <img src={avatar} alt="" />
+        <span className="span">
+          <img src={avatar} alt="" />
+          <h4>User Edit</h4>
+        </span>
         <p>{formik.errors.name ? formik.errors.name : <b>name: {data?.name}</b>}</p>
         <Input size='large' id='name' type='text' value={formik.values.name} onChange={formik.handleChange} />
 
         <p>{formik.errors.phone ? formik.errors.phone : <b>phone: {data?.phone}</b>}</p>
-        <Input size='large' id='phone' addonBefore="+998" type='text' value={formik.values.phone} onChange={formik.handleChange} />
+        <Input size='large' id='phone' addonBefore="+998" type='number' value={formik.values.phone} onChange={formik.handleChange} />
 
         <span className="span">
           <span>
@@ -74,7 +90,7 @@ const UpdatePage = () => {
           </span>
         </span>
 
-        <button type='submit'>Ok</button>
+        <Button type='primary' disabled={loading && true} htmlType='submit'>{loading && <Spin size='large' indicator={<LoadingOutlined style={{ fontSize: 24, }} spin />} />}  Ok</Button>
       </Card>
     </Container>
   )

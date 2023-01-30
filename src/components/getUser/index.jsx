@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Wrapper, Navbar, InputAnt, ButtonAnt, BranchStyle } from './style'
-import { Table, Drawer, Modal, Select, Popover } from 'antd';
+import { Table, Drawer, Modal, Select, Popover, notification } from 'antd';
 import edits from '../../assets/edit.svg'
-import deleted from '../../assets/delete.svg'
+import deleteds from '../../assets/delete.svg'
 import logouts from '../../assets/logout.svg'
 import vert from '../../assets/vert.svg'
-import phone from '../../assets/phone.svg'
+import phone from '../../assets/camera.svg'
 import avatar from '../../assets/avatar.png'
 import AddUser from '../add'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { debounce } from "lodash"
+import { useCallback } from 'react';
 const { REACT_APP_BASE_URL: url } = process.env
 
 const HomeTablePageTest = () => {
@@ -46,10 +48,10 @@ const HomeTablePageTest = () => {
       render: (id, record) => {
         return <span key={record.id} className='action'>
           <img className='edit-img' onClick={() => navigate(`/edit/${id}`)} src={edits} />
-          <img className='edit-img' onClick={() => setData(data?.filter((v) => v.id !== id))} src={deleted} />
+          <img className='edit-img' onClick={() => showDeleted(id)} src={deleteds} />
           <Popover placement="bottomRight" content={<div>
-            <h3 className='h3' onClick={() => navigate(`/edit/${id}`)}>edit</h3>
-            <h3 className='h3' onClick={() => setData(data?.filter((v) => v.id !== id))}>deted</h3>
+            <h3 className='h3' onClick={() => navigate(`/edit/${id}`)}>edit user</h3>
+            <h3 className='h3' >view user</h3>
           </div>} trigger="click"><img className='edit-img' src={vert} /></Popover>
         </span>
       }
@@ -85,6 +87,24 @@ const HomeTablePageTest = () => {
     localStorage.clear()
   }
 
+  // ______ deleted user ______
+  const [deleted, setDeleted] = useState(false);
+  const handleCancelId = () => setDeleted(false)
+  const [deletedId, setDeletedId] = useState(null);
+  const showDeleted = id => {
+    setDeleted(true)
+    setDeletedId(id)
+  }
+
+  let names = data?.filter((v) => v.id == deletedId)
+  console.log(names);
+
+  const okDeleted = () => {
+    openNotificationWithIcon("success", "tabriklaymiz", `${names.map(value => value.name)} ismli user muvafaqiatli o'chirildi`)
+    setData(data?.filter((v) => v.id !== deletedId))
+    setDeleted(false)
+  }
+
   // ______ get data ______
   const getData = () => {
     localStorage.getItem('access_token') && setLoading(true)
@@ -93,27 +113,31 @@ const HomeTablePageTest = () => {
       params,
       // timeout: 10000 && setLoading(false)
     }).then(response => {
+      // console.log(response);
       setData(response?.data?.data)
       setLoading(false)
       setpagination(response?.data?.pagination)
-
+      response?.data?.pagination?.total == 0 && openNotificationWithIcon('info', 'xatolik')
     })
+      .catch(err => setLoading(false))
   }
   useEffect(() => getData(), [])
 
   // ______ filter ______
-  const onChanges = (e) => {
-    params.name = e.target.value.toLowerCase()
-    setTimeout(() => {
+
+  const makeRequestName = useCallback(
+    debounce((e) => {
+      params.name = e.target.value.toLowerCase()
       return getData()
-    }, 2000);
-  }
-  const onChangePhone = (e) => {
-    params.phone = e.target.value.toLowerCase()
-    setTimeout(() => {
+    }, 500), []
+  )
+  const makeRequestPhone = useCallback(
+    debounce((e) => {
+      params.phone = e.target.value
       return getData()
-    }, 2000);
-  }
+    }, 500), []
+  )
+
   const selectChangeBranch = (value) => {
     params.branch_id = value
     return getData()
@@ -130,10 +154,18 @@ const HomeTablePageTest = () => {
     params.page = value
     return getData()
   }
+  // notification
+  const openNotificationWithIcon = (type, message, description) => {
+    notification[type]({
+      message,
+      description: description || 'ushbu foydalanuvchi mavjud emas',
 
+    });
+  };
   return <div className='container'>
     <Container>
       <Modal title="Sahifadan chiqish" open={isOutOpen} onOk={logOutOk} onCancel={handleCancel}> <p>Siz rostan ham sahifani tark etmoqchimsiz. </p></Modal>
+      <Modal title="o'chirish" open={deleted} onOk={okDeleted} onCancel={handleCancelId}> <p>Siz rostan ham sahifani tark etmoqchimsiz. </p></Modal>
       <Drawer title="Add User" placement="right" onClose={onClose} open={open}><AddUser data={data} setData={setData} open={open} setOpen={setOpen} /></Drawer>
       <Wrapper>
         <Navbar>
@@ -145,8 +177,8 @@ const HomeTablePageTest = () => {
             options={[{ value: '', label: 'status' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
         </Navbar >
         <Navbar>
-          <InputAnt size='large' name='name' onChange={onChanges} placeholder='search name...' type="text" />
-          <InputAnt size='large' name='name' onChange={onChangePhone} placeholder='search phone...' type="text" />
+          <InputAnt size='large' name='name' onChange={makeRequestName} placeholder='search name...' type="text" />
+          <InputAnt size='large' name='name' onChange={makeRequestPhone} placeholder='search phone...' type="number" />
           <ButtonAnt size='large' onClick={showDrawer} type="primary">+ Add New USer</ButtonAnt>
           <img className='logout' onClick={showLogOut} src={logouts} alt="" />
         </Navbar>

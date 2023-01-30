@@ -16,7 +16,8 @@ img{
   min-height: 70px;
   max-height: 70px;
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
+  margin-right: auto;
 }
 h3{text-align: center;}
 b{color: #000;}
@@ -54,5 +55,5 @@ button{
   border-radius: 6px;
   margin-top: 30px;
 }
-.span{display: flex; justify-content: center; width: 100%; gap:20px}
+.span{display: flex; justify-content: center; width: 100%; gap:20px; }
 `
