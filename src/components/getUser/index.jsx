@@ -7,11 +7,12 @@ import logouts from '../../assets/logout.svg'
 import vert from '../../assets/vert.svg'
 import phone from '../../assets/camera.svg'
 import avatar from '../../assets/avatar.png'
-import AddUser from '../add'
+import AddUser from '../addUser'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { debounce } from "lodash"
 import { useCallback } from 'react';
+import RefreshToken from './refresh';
 const { REACT_APP_BASE_URL: url } = process.env
 
 const HomeTablePageTest = () => {
@@ -51,7 +52,7 @@ const HomeTablePageTest = () => {
           <img className='edit-img' onClick={() => showDeleted(id)} src={deleteds} />
           <Popover placement="bottomRight" content={<div>
             <h3 className='h3' onClick={() => navigate(`/edit/${id}`)}>edit user</h3>
-            <h3 className='h3' >view user</h3>
+            <h3 className='h3' onClick={() => navigate(`/view/${id}`)}>view user</h3>
           </div>} trigger="click"><img className='edit-img' src={vert} /></Popover>
         </span>
       }
@@ -97,14 +98,12 @@ const HomeTablePageTest = () => {
   }
 
   let names = data?.filter((v) => v.id == deletedId)
-  console.log(names);
 
   const okDeleted = () => {
     openNotificationWithIcon("success", "tabriklaymiz", `${names.map(value => value.name)} ismli user muvafaqiatli o'chirildi`)
     setData(data?.filter((v) => v.id !== deletedId))
     setDeleted(false)
   }
-
   // ______ get data ______
   const getData = () => {
     localStorage.getItem('access_token') && setLoading(true)
@@ -124,7 +123,6 @@ const HomeTablePageTest = () => {
   useEffect(() => getData(), [])
 
   // ______ filter ______
-
   const makeRequestName = useCallback(
     debounce((e) => {
       params.name = e.target.value.toLowerCase()
@@ -162,6 +160,7 @@ const HomeTablePageTest = () => {
 
     });
   };
+
   return <div className='container'>
     <Container>
       <Modal title="Sahifadan chiqish" open={isOutOpen} onOk={logOutOk} onCancel={handleCancel}> <p>Siz rostan ham sahifani tark etmoqchimsiz. </p></Modal>
@@ -177,10 +176,11 @@ const HomeTablePageTest = () => {
             options={[{ value: '', label: 'status' }, { value: '1', label: '1' }, { value: '2', label: '2' }]} />
         </Navbar >
         <Navbar>
+          <img className='logout' style={{ cursor: 'pointer' }} onClick={showLogOut} src={logouts} alt="" />
+          <RefreshToken />
           <InputAnt size='large' name='name' onChange={makeRequestName} placeholder='search name...' type="text" />
           <InputAnt size='large' name='name' onChange={makeRequestPhone} placeholder='search phone...' type="number" />
           <ButtonAnt size='large' onClick={showDrawer} type="primary">+ Add New USer</ButtonAnt>
-          <img className='logout' onClick={showLogOut} src={logouts} alt="" />
         </Navbar>
 
         <Table

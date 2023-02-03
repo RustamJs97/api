@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Input } from 'antd'
 import 'react-modern-drawer/dist/index.css'
+import MaskedInput from 'react-text-mask'
 
 export const Container = styled.div`
   width: 100%;
@@ -58,5 +59,20 @@ export const InputAnt = styled(Input)`
   height: 40px;
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 16px !important;
+`
+export const InputMask = styled(MaskedInput)`
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 700;
+  outline: none;
+  border: none;
+  background: #fff !important;
+  padding-left: 70px;
+border-radius: 6px ;
+:focus{
+  background: #fff !important;
+
+}
 `

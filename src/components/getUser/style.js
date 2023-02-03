@@ -16,8 +16,9 @@ export const Container = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #3333;
+  /* background-color: #3333; */
   object-fit: cover;
+  cursor: pointer;
 }
 .edit-img{
   margin-top: 5px;

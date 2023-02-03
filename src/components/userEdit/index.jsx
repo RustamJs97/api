@@ -7,6 +7,7 @@ import { Input, Button, Spin, notification } from 'antd'
 import avatar from '../../assets/avatar.png'
 import axios from 'axios'
 import { LoadingOutlined } from '@ant-design/icons';
+import { InputMask } from '../login/styled'
 const { REACT_APP_BASE_URL: url } = process.env
 
 const UpdatePage = () => {
@@ -44,7 +45,7 @@ const UpdatePage = () => {
       axios.put(`http://${url}/api/user/update`, {
         id,
         name: formik.values.name,
-        phone: `998${formik.values.phone}`,
+        phone: `998${formik.values.phone.replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("-", "")}`,
         role_id: formik.values.role,
         branch_id: formik.values.branch
       }, {
@@ -77,8 +78,16 @@ const UpdatePage = () => {
         <Input size='large' id='name' type='text' value={formik.values.name} onChange={formik.handleChange} />
 
         <p>{formik.errors.phone ? formik.errors.phone : <b>phone: {data?.phone}</b>}</p>
-        <Input size='large' id='phone' addonBefore="+998" type='number' value={formik.values.phone} onChange={formik.handleChange} />
-
+        <span className="row">
+          <span className="input-code">
+            +998
+          </span>
+          <InputMask
+            className='inputs'
+            mask={['(', /[0-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
+            placeholder="Enter a phone number"
+            size='large' guide={true} id='phone' addonBefore="+998" type='text' value={formik.values.phone} onChange={formik.handleChange} />
+        </span>
         <span className="span">
           <span>
             <p>{formik.errors.role ? formik.errors.role : <b>role_id: {data?.role_id}</b>}</p>

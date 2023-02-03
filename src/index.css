@@ -57,7 +57,33 @@ input{word-spacing: 5px;}
   border-radius: 6px;
 }
 .not-img{width: 20%;}
-.flag-dropdown { border-radius: 6px !important;}
+.flag-dropdown { border-radius: 6px 0 0 6px !important;}
 p{z-index: 1 !important}
 .form-control {margin-left: 0 !important;}
+.ant-pagination-options{margin-right: 15px;}
 /* .flag-dropdown {display: none;} */
+.row{
+  width: 100%;
+  display: flex;
+border: 1px solid rgba(0,0,0,.1);
+border-radius: 6px;
+}
+
+input:focus{outline: none; background-color: #fff !important;}
+.input-code{
+  margin: 1px 0 0 1px;
+  position: absolute;
+  font-size: 14px;
+  width: 56px;
+height: 38px;
+background-color: #f8f8f8;
+border-radius: 6px 0 0 6px;
+display: flex;
+justify-content: center;
+align-items: center;
+border-right: 1px solid rgba(0,0,0,.1);
+}
+.inputs { outline: none; border: 1px solid rgba(0, 0, 0, .01 );}
+.inputs:focus { outline: none; border: 1px solid #4096ff;}
+.inputs:hover { border: 1px solid #4096ff;}
+.inputs:focus { transition: all .3s; box-shadow: 0 0 0 2px rgb(5 155 255/10%);}
